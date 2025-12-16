@@ -1,20 +1,20 @@
 from ..enums import SailBoatStatus, can_change_status
 from ..models import Sailboat
-#add boat
-# remove boat
-# list boats
-# set boat status
-# get boat
+
 
 class BoatStorage:
     def __init__(self):
-        # Słownik zamiast bazy danych. Normalnie konektor do bazy danych
+        # Dictionary instead of database connection.
         self.boats: dict[int, Sailboat] = {}
+        # TODO: Replace the dictionary with database connector
 
-    def add_boat(self, boat_id: int, type_of_boat: str, name: str, boat_type: str, length: float, price: float) -> Sailboat:
+    def add_boat(self, boat_id: int, name: str, boat_type: str, length: float,
+                 price: float, status: SailBoatStatus | None = None) -> Sailboat:
+        if status is None:
+            status = SailBoatStatus.AVAILABLE
         if boat_id in self.boats:
             raise ValueError("Boat already in storage.")
-        new_boat = Sailboat(boat_id, type_of_boat, name, boat_type, length, price)
+        new_boat = Sailboat(boat_id, name, boat_type, length, price, status)
         self.boats[boat_id] = new_boat
         return new_boat
 
