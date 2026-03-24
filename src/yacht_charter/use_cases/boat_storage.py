@@ -1,11 +1,12 @@
+from ..domain.boats.repository import BoatRepository
 from ..enums import SailBoatStatus, can_change_status
-from ..models import Sailboat
+from src.yacht_charter.domain.boats.models import Sailboat
 
 
 class BoatStorage:
-    def __init__(self):
+    def __init__(self, boat_repository: BoatRepository):
         # Dictionary instead of database connection.
-        self.boats: dict[int, Sailboat] = {}
+        self.boats: BoatRepository = boat_repository
         # TODO: Replace the dictionary with database connector
 
     def add_boat(self, boat_id: int, name: str, boat_type: str, length: float,
@@ -17,6 +18,7 @@ class BoatStorage:
         new_boat = Sailboat(boat_id, name, boat_type, length, price, status)
         self.boats[boat_id] = new_boat
         return new_boat
+
 
     def remove_boat(self, boat_id: int) -> bool:
         if boat_id in self.boats:

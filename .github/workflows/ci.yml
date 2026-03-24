@@ -1,0 +1,24 @@
+name: python CI
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+            python-version: '3.11'
+      - name: install poetry
+        run:  pip install poetry
+      - name: install dependencies
+        run: poetry install
+      - name: run tests
+        run: poetry run pytest
